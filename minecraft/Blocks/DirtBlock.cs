@@ -2,11 +2,11 @@
 
 namespace MinecraftGame.Blocks
 {
-    public class GrassBlock : Block
+    public class DirtBlock : Block
     {
-        public GrassBlock()
+        public DirtBlock()
         {
-            Name = "Grass";
+            Name = "Dirt";
             Health = 10;
         }
         public override ToolType RequiredTool => ToolType.Shovel;

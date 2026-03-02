@@ -9,6 +9,7 @@ namespace MinecraftGame
 {
     public class Game
     {
+        private Random random = new Random();
         private Player player;
         private Tool tool;
         public void Start()
@@ -16,8 +17,11 @@ namespace MinecraftGame
             player = new Player();
             tool = new Pickaxe();
 
+            Console.ForegroundColor = ConsoleColor.Cyan; ;
             Console.WriteLine("--- Minecraft ---");
+            Console.ResetColor();
 
+            Console.ForegroundColor = ConsoleColor.Yellow;
             bool running = true;
             while (running)
             {
@@ -59,32 +63,95 @@ namespace MinecraftGame
 
         private void Mine()
         {
+            Console.Clear();
             Block block = new StoneBlock();
+
+            int randomBlock = random.Next(1, 4);
+
+            switch (randomBlock)
+            {
+                case 1:
+                    block = new StoneBlock();
+                    break;
+                case 2:
+                    block = new DirtBlock();
+                    break;
+                default:
+                    block = new WoodBlock();
+                    break;
+            }
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine($"You found a {block.Name} block!");
+            Console.ResetColor();
+
+            if (tool.Type != block.RequiredTool)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"You need a {block.RequiredTool} to mine this block!");
+                Console.ResetColor();
+                return;
+            }
+
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Player starts mining...");
+            Console.ResetColor();
+
             while (block.Health > 0)
             {
+                if (tool.Durability <= 0)
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    Console.WriteLine("Your tool broke!");
+                    Console.ResetColor();
+                    return;
+                }
+
                 tool.Use(block);
+
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
                 Console.WriteLine($"Block HP: {block.Health}");
+                Console.ResetColor();
+
+                Console.ForegroundColor = ConsoleColor.DarkGray;
+                Console.WriteLine($"Tool durability: {tool.Durability}");
+                Console.ResetColor();
+
+                System.Threading.Thread.Sleep(400);
             }
+
+            Console.ForegroundColor = ConsoleColor.Magenta;
             block.DropLoot(player);
+            Console.ResetColor();
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("Block destroyed!");
+            Console.ResetColor();
         }
 
-        //Combat
         private void Fight()
         {
             Zombie zombie = new Zombie();
-            Console.WriteLine("A wild zombie appears!!!");
+
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("A WILD ZOMBIE APPEARS!!!");
+            Console.ResetColor();
+
             while (zombie.Health > 0 && player.Health > 0)
             {
                 zombie.Attack(player);
+
+                Console.ForegroundColor = ConsoleColor.Green;
                 player.Attack(zombie);
+                Console.ResetColor();
             }
             if (player.Health <= 0)
             {
+                Console.ForegroundColor = ConsoleColor.DarkRed;
                 Console.WriteLine("You died...");
             }
             else
             {
+                Console.ForegroundColor = ConsoleColor.DarkGreen;
                 Console.WriteLine("You defeated the zombie!");
             }
 

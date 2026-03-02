@@ -22,11 +22,25 @@ namespace MinecraftGame.PlayerSystem
 
         public void Attack(IDamageable target)
         {
-            int damage = 10;
+            Random rnd = new Random();
+            int damage = rnd.Next(5, 15);
+
             target.TakeDamage(damage);
-            Console.WriteLine($"Player attacks!");
+
+            Console.ForegroundColor = ConsoleColor.DarkGreen;
+            Console.WriteLine($"Player hits for {damage} damage!");
+            Console.ResetColor();   
         }
 
+        public void ShowHealthBar()
+        {
+            Console.Write("HP: ");
+
+            for (int i = 0; i < Health / 10; i++)
+                Console.Write("█");
+
+            Console.WriteLine($" ({Health})");
+        }
     }
     
 }

@@ -9,6 +9,7 @@ namespace MinecraftGame.Tools
         { 
             Name = "Pickaxe";
             Damage = 5;
+            Durability = 10;
             Type = ToolType.Pickaxe;
         }
     }

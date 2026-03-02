@@ -12,9 +12,14 @@ namespace MinecraftGame.Enemies
 
         public override void Attack(IDamageable target)
         {
-            int damage = 8;
-            target.TakeDamage(damage);
-            Console.WriteLine($"Zombie attacks!");
+            Random rnd = new Random();
+            int danage = rnd.Next(4, 12);
+
+            target.TakeDamage(danage);
+
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.WriteLine($"Zombie hits for {danage} damage!");
+            Console.ResetColor();   
         }
     }
 }

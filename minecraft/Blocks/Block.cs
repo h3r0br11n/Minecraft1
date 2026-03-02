@@ -13,8 +13,15 @@ namespace MinecraftGame.Blocks
 
         public virtual void DropLoot(Player player)
         {
-            Console.WriteLine("Block dropped loot!");
-            player.Inventory.AddItem(Name);
+            Random rnd = new Random();
+            int amount = rnd.Next(1, 4);
+
+            Console.ForegroundColor = ConsoleColor.Magenta;
+            Console.WriteLine($"{Name} dropped {amount} items!");
+            Console.ResetColor(); 
+
+            for (int i = 0; i < amount; i++)
+                player.Inventory.AddItem(Name);
         }
 
         public void TakeDamage(int damage)

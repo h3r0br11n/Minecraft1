@@ -14,8 +14,10 @@ namespace MinecraftGame.PlayerSystem
         }
 
         public void ShowItems()
-        { 
+        {
+            Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine("Inventory: ");
+            Console.ResetColor();
             foreach (var item in items)
                 Console.WriteLine(item);
 
