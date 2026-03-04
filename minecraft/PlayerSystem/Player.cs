@@ -1,5 +1,5 @@
-﻿using System;
-using MinecraftGame.Core;
+﻿using MinecraftGame.Core;
+using MinecraftGame.Tools;
 using MinecraftGame.Utils;
 
 namespace MinecraftGame.PlayerSystem
@@ -14,7 +14,12 @@ namespace MinecraftGame.PlayerSystem
         public Player()
         {
             Name = "Steve";
+
             Inventory = new Inventory();
+
+            Inventory.AddTool(new Pickaxe());
+            Inventory.AddTool(new Shovel());
+            Inventory.AddTool(new Axe());
         }
 
         public void TakeDamage(int damage)

@@ -1,5 +1,4 @@
-﻿using System;
-using MinecraftGame.Core;
+﻿using MinecraftGame.Core;
 
 namespace MinecraftGame.Enemies
 {

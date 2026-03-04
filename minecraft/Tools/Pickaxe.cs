@@ -1,5 +1,5 @@
-﻿using MinecraftGame.Core;
-using MinecraftGame.Enums;
+﻿using MinecraftGame.Enums;
+using MinecraftGame.Tools;
 
 namespace MinecraftGame.Tools
 {

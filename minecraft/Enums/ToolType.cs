@@ -3,9 +3,7 @@
     public enum ToolType
     {
         Pickaxe,
-        Shovel,
         Axe,
-        Hoe,
-        Sword
+        Shovel
     }
 }

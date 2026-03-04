@@ -7,7 +7,6 @@ namespace MinecraftGame.Tools
     {
        public int Damage { get; protected set; }
        public ToolType Type { get; protected set; }
-       
        public int Durability { get; protected set; }
 
         public virtual void Use(IDamageable target)

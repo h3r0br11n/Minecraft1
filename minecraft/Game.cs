@@ -1,10 +1,10 @@
-﻿using System;
-using MinecraftGame.Blocks;
+﻿using MinecraftGame.Blocks;
 using MinecraftGame.Tools;
 using MinecraftGame.PlayerSystem;
 using MinecraftGame.Enemies;
 using MinecraftGame.Utils;
-using System.Runtime.CompilerServices;
+using MinecraftGame.Enums;
+using System;
 
 namespace MinecraftGame
 {
@@ -12,12 +12,12 @@ namespace MinecraftGame
     {
         private Random random = new Random();
         private Player player;
-        private Tool tool;
+        private Tool tool = new Pickaxe();
 
         public void Start()
         {
             player = new Player();
-            tool = new Pickaxe();
+            //tool = new Pickaxe();
 
             Logger.Log("Game started.");
 
@@ -79,7 +79,6 @@ namespace MinecraftGame
             Logger.Log("Game closed.");
             Console.WriteLine("Thanks for playing!");
         }
-
         private void ShowStats()
         {
             Console.WriteLine("\n--- Player Stats ---");
@@ -98,7 +97,6 @@ namespace MinecraftGame
                 Console.ResetColor();
             }
         }
-
         private void Mine()
         {
             Console.Clear();
@@ -131,13 +129,11 @@ namespace MinecraftGame
 
             Logger.Log($"Player found a {block.Name} block.");
 
-            if (tool.Type != block.RequiredTool)
-            {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine($"You need a {block.RequiredTool} to mine this block!");
-                Console.ResetColor();
+            Tool tool = player.Inventory.GetToolForBlock(block.RequiredTool);
 
-                Logger.Log($"Player failed to mine {block.Name} block. Required tool: {block.RequiredTool}.");
+            if (tool == null)
+            {
+                Console.WriteLine("You don't have the right tool to mine this block!");
                 return;
             }
 
@@ -196,7 +192,6 @@ namespace MinecraftGame
 
             CheckLevelUp();
         }
-
         private void Fight()
         {
             Enemy enemy;
@@ -220,15 +215,15 @@ namespace MinecraftGame
 
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine($"A wild {enemy.Name} appears!");
-            Console.ResetColor();   
+            Console.ResetColor();
 
             Logger.Log($"Player encountered a {enemy.Name}.");
 
             while (enemy.Health > 0 && player.Health > 0)
-            { 
+            {
                 enemy.Attack(player);
                 player.Attack(enemy);
-                
+
             }
         }
         private void GatherFood()
@@ -241,7 +236,6 @@ namespace MinecraftGame
             Logger.Log($"Player found {food}.");
             player.Inventory.AddItem(food);
         }
-
         private void Eat()
         {
             if (player.Inventory.HasItem("Apple"))
@@ -272,6 +266,39 @@ namespace MinecraftGame
                 Logger.Log("Player tried to eat but had no food.");
             }
         }
+
+        private void ChangeTool()
+        {
+            Console.WriteLine("Choose a tool:");
+            Console.WriteLine("1 - Pickaxe");
+            Console.WriteLine("2 - Axe");
+            Console.WriteLine("3 - Shovel");
+            string input = Console.ReadLine();
+            switch (input)
+            {
+                case "1":
+                    tool = new Pickaxe();
+                    break;
+                case "2":
+                    tool = new Axe();
+                    break;
+                case "3":
+                    tool = new Shovel();
+                    break;
+                default:
+                    Console.WriteLine("Invalid input. Keeping current tool.");
+                    break;
+            }
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.WriteLine($"You equipped a {tool.Name}.");
+            Console.ResetColor();
+            Logger.Log($"Player changed tool to {tool.Name}.");
+        }
     }
 }
 
+// leben kann nicht in minus gehen. auch von mobs
+//wenn man stirbt kommt frage "wieser leben?"
+// versuchen "wood 3x" und so zu machen
+// log file zu fixen
+//code clean zu machen

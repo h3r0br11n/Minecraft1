@@ -1,5 +1,4 @@
-﻿using System;
-using MinecraftGame.Core;
+﻿using MinecraftGame.Core;
 
 namespace MinecraftGame.Enemies
 {
@@ -15,7 +14,9 @@ namespace MinecraftGame.Enemies
         {
             Random rnd = new Random();
             int damage = rnd.Next(3, 10);
+
             target.TakeDamage(damage);
+
             Console.ForegroundColor = ConsoleColor.DarkGreen;
             Console.WriteLine($"Spider bites for {damage} damage!");
             Console.ResetColor();

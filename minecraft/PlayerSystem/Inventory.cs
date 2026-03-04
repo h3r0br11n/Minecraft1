@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using MinecraftGame.Enums;
+using MinecraftGame.Tools; 
 
 namespace MinecraftGame.PlayerSystem
 {
@@ -20,9 +20,8 @@ namespace MinecraftGame.PlayerSystem
             Console.ResetColor();
             foreach (var item in items)
                 Console.WriteLine(item);
-
         }
-    public bool HasItem(string item)
+        public bool HasItem(string item)
         {
             return items.Contains(item);
         }
@@ -30,6 +29,35 @@ namespace MinecraftGame.PlayerSystem
         public void RemoveItem(string item)
         {
             items.Remove(item);
+        }
+
+        private List<Tool> tools = new List<Tool>();
+
+        public void ShowTools()
+        {
+            Console.WriteLine("Tools: ");
+
+            foreach (var tool in tools)
+            {
+                Console.WriteLine(tool);
+            }
+        }
+
+        public void AddTool(Tool tool)
+        {
+            tools.Add(tool);
+        }
+
+        public Tool GetToolForBlock(ToolType required)
+        {
+            foreach (var tool in tools)
+            {
+                if (tool.Type == required)
+                {
+                    return tool;
+                }
+            }
+            return null;
         }
     }
 }

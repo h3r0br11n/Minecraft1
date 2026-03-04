@@ -1,9 +1,7 @@
-﻿using MinecraftGame.Core;
-using MinecraftGame.Enums;
+﻿using MinecraftGame.Enums;
 using MinecraftGame.Tools;
-using static System.Net.Mime.MediaTypeNames;
 
-namespace Minecraft.Tools
+namespace MinecraftGame.Tools
 {
     public class Axe : Tool
     {
@@ -11,6 +9,7 @@ namespace Minecraft.Tools
         {
             Name = "Axe";
             Damage = 4;
+            Durability = 40;
             Type = ToolType.Axe;
         }
     }
