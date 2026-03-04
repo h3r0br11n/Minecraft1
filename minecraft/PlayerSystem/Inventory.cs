@@ -22,5 +22,16 @@ namespace MinecraftGame.PlayerSystem
                 Console.WriteLine(item);
 
         }
+    
+
+    public bool HasItem(string item)
+        {
+            return items.Contains(item);
+        }
+
+        public void RemoveItem(string item)
+        {
+            items.Remove(item);
+        }
     }
 }

@@ -3,8 +3,8 @@ using MinecraftGame.Blocks;
 using MinecraftGame.Tools;
 using MinecraftGame.PlayerSystem;
 using MinecraftGame.Enemies;
-using System.Runtime.CompilerServices;
 using MinecraftGame.Utils;
+using System.Runtime.CompilerServices;
 
 namespace MinecraftGame
 {
@@ -33,7 +33,10 @@ namespace MinecraftGame
                 Console.WriteLine("1 - Mine stone.");
                 Console.WriteLine("2 - Fight zombie.");
                 Console.WriteLine("3 - Show inventory.");
-                Console.WriteLine("4 - Exit.");
+                Console.WriteLine("4 - Show Stats");
+                Console.WriteLine("5 - Find something to eat.");
+                Console.WriteLine("6 - Eat.");
+                Console.WriteLine("7 - Exit.");
 
                 string input = Console.ReadLine();
 
@@ -52,6 +55,18 @@ namespace MinecraftGame
                         break;
 
                     case "4":
+                        ShowStats();
+                        break;
+
+                    case "5":
+                        GatherFood();
+                        break;
+
+                    case "6":
+                        Eat();
+                        break;
+
+                    case "7":
                         running = false;
                         break;
 
@@ -66,9 +81,22 @@ namespace MinecraftGame
         }
 
         private void ShowStats()
-        { 
+        {
+            Console.WriteLine("\n--- Player Stats ---");
             Console.WriteLine($"Player HP: {player.Health}");
-            Console.WriteLine($"HP: {player.Experience}");
+            Console.WriteLine($"Level: {player.Level}");
+        }
+        private void CheckLevelUp()
+        {
+            if (player.Experience >= 20)
+            {
+                player.Level++;
+                player.Experience = 0;
+
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine($"LEVEL UP!!! You've reached level {player.Level}!");
+                Console.ResetColor();
+            }
         }
 
         private void Mine()
@@ -76,7 +104,7 @@ namespace MinecraftGame
             Console.Clear();
             Block block;
 
-            int randomBlock = random.Next(1, 4);
+            int randomBlock = random.Next(1, 6);
 
             switch (randomBlock)
             {
@@ -86,8 +114,15 @@ namespace MinecraftGame
                 case 2:
                     block = new DirtBlock();
                     break;
-                default:
+                case 3:
                     block = new WoodBlock();
+                    break;
+                case 4:
+                    block = new StoneBlock();
+                    break;
+
+                default:
+                    block = new DiamondBlock();
                     break;
             }
             Console.ForegroundColor = ConsoleColor.Cyan;
@@ -139,11 +174,27 @@ namespace MinecraftGame
             block.DropLoot(player);
             Console.ResetColor();
 
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("Block destroyed!");
+            if (block.Name == "Diamond")
+            {
+                player.Experience += 20;
+
+                Console.ForegroundColor = ConsoleColor.Magenta;
+                Console.WriteLine("You mined a DIAMOND! +20XP");
+            }
+            else
+            {
+                player.Experience += 5;
+
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("+5XP");
+            }
             Console.ResetColor();
 
-            Logger.Log($"Player destroyed {block.Name} block and received loot.");
+            player.Experience += 5;
+
+            Logger.Log($"Player destroyed {block.Name} block, received loot and gained XP from minung.");
+
+            CheckLevelUp();
         }
 
         private void Fight()
@@ -173,12 +224,55 @@ namespace MinecraftGame
             }
             else
             {
+                player.Experience += 10;
+                Console.WriteLine("+10XP");
                 Console.ForegroundColor = ConsoleColor.DarkGreen;
                 Console.WriteLine("You defeated the zombie!");
 
                 Logger.Log("Player defeated the zombie.");
             }
+        }
+        private void GatherFood()
+        {
+            string[] foods = { "Apple", "Bread", "Cooked Meat" };
+            string food = foods[random.Next(foods.Length)];
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine($"You found some {food}!");
+            Console.ResetColor();
+            Logger.Log($"Player found {food}.");
+            player.Inventory.AddItem(food);
+        }
 
+        private void Eat()
+        {
+            if (player.Inventory.HasItem("Apple"))
+            {
+                player.Inventory.RemoveItem("Apple");
+                player.Heal(20);
+
+                Console.WriteLine("You ate an Apple and restored 20 HP!");
+                Logger.Log("Player ate an Apple and healed 20 HP.");
+            }
+            else if (player.Inventory.HasItem("Bread"))
+            {
+                player.Inventory.RemoveItem("Bread");
+                player.Heal(30);
+                Console.WriteLine("You ate Bread and restored 30 HP!");
+                Logger.Log("Player ate Bread and healed 30 HP.");
+            }
+            else if (player.Inventory.HasItem("Cooked Meat"))
+            {
+                player.Inventory.RemoveItem("Cooked Meat");
+                player.Heal(50);
+                Console.WriteLine("You ate Cooked Meat and restored 50 HP!");
+                Logger.Log("Player ate Cooked Meat and healed 50 HP.");
+            }
+            else
+            {
+                Console.WriteLine("You have nothing to eat!");
+                Logger.Log("Player tried to eat but had no food.");
+            }
         }
     }
 }
+

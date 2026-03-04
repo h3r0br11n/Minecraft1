@@ -6,9 +6,10 @@ namespace MinecraftGame.PlayerSystem
 {
     public class Player : GameObject, IDamageable
     {
-        public int Health { get; private set; } = 100;
-        public Inventory Inventory { get; private set; }
-        public int Experience { get; private set; } 
+        public int Health { get; set; } = 100;
+        public Inventory Inventory { get; set; }
+        public int Experience { get; set; } = 0;
+        public int Level { get; set; } = 1;
 
         public Player()
         {
@@ -28,6 +29,15 @@ namespace MinecraftGame.PlayerSystem
         {
             Random rnd = new Random();
             int damage = rnd.Next(5, 15);
+            int critChance = rnd.Next(0, 100);
+
+            if (critChance < 20)
+            {
+                damage *= 2;
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine("CRITICAL HIT!");
+                Console.ResetColor();
+            }
 
             target.TakeDamage(damage);
 
@@ -48,6 +58,18 @@ namespace MinecraftGame.PlayerSystem
             Console.WriteLine($" ({Health})");
 
             Logger.Log($"Player health bar displayed: {Health} HP.");
+        }
+
+        public void Heal(int amount)
+        {
+            Health += amount;
+
+            if (Health > 100)
+                Health = 100;
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine($"Player healed for {amount} HP! Current HP: {Health}");
+            Console.ResetColor();
         }
     }
     
