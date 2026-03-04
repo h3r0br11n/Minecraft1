@@ -8,6 +8,7 @@ namespace MinecraftGame.PlayerSystem
     {
         public int Health { get; private set; } = 100;
         public Inventory Inventory { get; private set; }
+        public int Experience { get; private set; } 
 
         public Player()
         {

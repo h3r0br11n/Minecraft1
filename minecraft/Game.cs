@@ -65,11 +65,16 @@ namespace MinecraftGame
             Console.WriteLine("Thanks for playing!");
         }
 
+        private void ShowStats()
+        { 
+            Console.WriteLine($"Player HP: {player.Health}");
+            Console.WriteLine($"HP: {player.Experience}");
+        }
 
         private void Mine()
         {
             Console.Clear();
-            Block block = new StoneBlock();
+            Block block;
 
             int randomBlock = random.Next(1, 4);
 
