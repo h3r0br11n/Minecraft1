@@ -31,7 +31,7 @@ namespace MinecraftGame
             {
                 Console.WriteLine("\nChoose action:");
                 Console.WriteLine("1 - Mine stone.");
-                Console.WriteLine("2 - Fight zombie.");
+                Console.WriteLine("2 - Fight.");
                 Console.WriteLine("3 - Show inventory.");
                 Console.WriteLine("4 - Show Stats");
                 Console.WriteLine("5 - Find something to eat.");
@@ -199,37 +199,36 @@ namespace MinecraftGame
 
         private void Fight()
         {
-            Zombie zombie = new Zombie();
+            Enemy enemy;
+
+            int rndm = random.Next(1, 4);
+
+            switch (rndm)
+            {
+                case 1:
+                    enemy = new Zombie();
+                    break;
+
+                case 2:
+                    enemy = new Spider();
+                    break;
+
+                default:
+                    enemy = new Zombie();
+                    break;
+            }
 
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("A WILD ZOMBIE APPEARS!!!");
-            Console.ResetColor();
+            Console.WriteLine($"A wild {enemy.Name} appears!");
+            Console.ResetColor();   
 
-            Logger.Log("Player encountered a zombie.");
+            Logger.Log($"Player encountered a {enemy.Name}.");
 
-            while (zombie.Health > 0 && player.Health > 0)
-            {
-                zombie.Attack(player);
-
-                Console.ForegroundColor = ConsoleColor.Green;
-                player.Attack(zombie);
-                Console.ResetColor();
-            }
-            if (player.Health <= 0)
-            {
-                Console.ForegroundColor = ConsoleColor.DarkRed;
-                Console.WriteLine("You died...");
-
-                Logger.Log("Player died in battle against zombie.");
-            }
-            else
-            {
-                player.Experience += 10;
-                Console.WriteLine("+10XP");
-                Console.ForegroundColor = ConsoleColor.DarkGreen;
-                Console.WriteLine("You defeated the zombie!");
-
-                Logger.Log("Player defeated the zombie.");
+            while (enemy.Health > 0 && player.Health > 0)
+            { 
+                enemy.Attack(player);
+                player.Attack(enemy);
+                
             }
         }
         private void GatherFood()

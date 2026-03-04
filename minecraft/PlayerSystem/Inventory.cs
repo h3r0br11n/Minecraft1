@@ -22,8 +22,6 @@ namespace MinecraftGame.PlayerSystem
                 Console.WriteLine(item);
 
         }
-    
-
     public bool HasItem(string item)
         {
             return items.Contains(item);

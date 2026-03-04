@@ -4,6 +4,7 @@
     {
         Stone,
         Wood,
-        Dirt
+        Dirt,
+        Diamond
     }
 }
