@@ -4,6 +4,7 @@ using MinecraftGame.Tools;
 using MinecraftGame.PlayerSystem;
 using MinecraftGame.Enemies;
 using System.Runtime.CompilerServices;
+using MinecraftGame.Utils;
 
 namespace MinecraftGame
 {
@@ -12,10 +13,13 @@ namespace MinecraftGame
         private Random random = new Random();
         private Player player;
         private Tool tool;
+
         public void Start()
         {
             player = new Player();
             tool = new Pickaxe();
+
+            Logger.Log("Game started.");
 
             Console.ForegroundColor = ConsoleColor.Cyan; ;
             Console.WriteLine("--- Minecraft ---");
@@ -57,6 +61,7 @@ namespace MinecraftGame
 
                 }
             }
+            Logger.Log("Game closed.");
             Console.WriteLine("Thanks for playing!");
         }
 
@@ -84,11 +89,15 @@ namespace MinecraftGame
             Console.WriteLine($"You found a {block.Name} block!");
             Console.ResetColor();
 
+            Logger.Log($"Player found a {block.Name} block.");
+
             if (tool.Type != block.RequiredTool)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine($"You need a {block.RequiredTool} to mine this block!");
                 Console.ResetColor();
+
+                Logger.Log($"Player failed to mine {block.Name} block. Required tool: {block.RequiredTool}.");
                 return;
             }
 
@@ -112,6 +121,8 @@ namespace MinecraftGame
                 Console.WriteLine($"Block HP: {block.Health}");
                 Console.ResetColor();
 
+                Logger.Log($"Player mined {block.Name} block. Remaining HP: {block.Health}. Tool durability: {tool.Durability}.");
+
                 Console.ForegroundColor = ConsoleColor.DarkGray;
                 Console.WriteLine($"Tool durability: {tool.Durability}");
                 Console.ResetColor();
@@ -126,6 +137,8 @@ namespace MinecraftGame
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Block destroyed!");
             Console.ResetColor();
+
+            Logger.Log($"Player destroyed {block.Name} block and received loot.");
         }
 
         private void Fight()
@@ -135,6 +148,8 @@ namespace MinecraftGame
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("A WILD ZOMBIE APPEARS!!!");
             Console.ResetColor();
+
+            Logger.Log("Player encountered a zombie.");
 
             while (zombie.Health > 0 && player.Health > 0)
             {
@@ -148,11 +163,15 @@ namespace MinecraftGame
             {
                 Console.ForegroundColor = ConsoleColor.DarkRed;
                 Console.WriteLine("You died...");
+
+                Logger.Log("Player died in battle against zombie.");
             }
             else
             {
                 Console.ForegroundColor = ConsoleColor.DarkGreen;
                 Console.WriteLine("You defeated the zombie!");
+
+                Logger.Log("Player defeated the zombie.");
             }
 
         }

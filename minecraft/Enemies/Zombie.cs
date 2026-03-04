@@ -1,4 +1,5 @@
 ﻿using MinecraftGame.Core;
+using MinecraftGame.Utils;
 
 namespace MinecraftGame.Enemies
 {
@@ -13,13 +14,15 @@ namespace MinecraftGame.Enemies
         public override void Attack(IDamageable target)
         {
             Random rnd = new Random();
-            int danage = rnd.Next(4, 12);
+            int damage = rnd.Next(4, 12);
 
-            target.TakeDamage(danage);
+            target.TakeDamage(damage);
 
             Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.WriteLine($"Zombie hits for {danage} damage!");
-            Console.ResetColor();   
+            Console.WriteLine($"Zombie hits for {damage} damage!");
+            Console.ResetColor(); 
+            
+            Logger.Log($"Zombie attacked for {damage} damage.");
         }
     }
 }

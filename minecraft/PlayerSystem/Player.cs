@@ -1,5 +1,6 @@
 ﻿using System;
 using MinecraftGame.Core;
+using MinecraftGame.Utils;
 
 namespace MinecraftGame.PlayerSystem
 {
@@ -18,6 +19,8 @@ namespace MinecraftGame.PlayerSystem
         {
             Health -= damage;
             Console.WriteLine($"Player took {damage} damage! Current HP: {Health}");
+
+            Logger.Log($"Player took {damage} damage. Current HP: {Health}");
         }
 
         public void Attack(IDamageable target)
@@ -30,6 +33,8 @@ namespace MinecraftGame.PlayerSystem
             Console.ForegroundColor = ConsoleColor.DarkGreen;
             Console.WriteLine($"Player hits for {damage} damage!");
             Console.ResetColor();   
+
+            Logger.Log($"Player attacked for {damage} damage.");
         }
 
         public void ShowHealthBar()
@@ -40,6 +45,8 @@ namespace MinecraftGame.PlayerSystem
                 Console.Write("█");
 
             Console.WriteLine($" ({Health})");
+
+            Logger.Log($"Player health bar displayed: {Health} HP.");
         }
     }
     
