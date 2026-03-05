@@ -18,8 +18,11 @@ namespace MinecraftGame.PlayerSystem
             Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine("Inventory: ");
             Console.ResetColor();
-            foreach (var item in items)
-                Console.WriteLine(item);
+            var groupedItems = items.GroupBy(i => i);
+
+            foreach (var group in groupedItems)
+                Console.WriteLine($"{group.Key} x{group.Count()}");
+
         }
         public bool HasItem(string item)
         {

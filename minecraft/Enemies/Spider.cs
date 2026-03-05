@@ -20,6 +20,8 @@ namespace MinecraftGame.Enemies
             Console.ForegroundColor = ConsoleColor.DarkGreen;
             Console.WriteLine($"Spider bites for {damage} damage!");
             Console.ResetColor();
+
+            Logger.Log($"Spider attacked for {damage} damage.");
         }
     }
 }

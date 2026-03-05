@@ -2,9 +2,7 @@
 using MinecraftGame.Tools;
 using MinecraftGame.PlayerSystem;
 using MinecraftGame.Enemies;
-using MinecraftGame.Utils;
-using MinecraftGame.Enums;
-using System;
+using MinecraftGame.Core;
 
 namespace MinecraftGame
 {
@@ -12,12 +10,10 @@ namespace MinecraftGame
     {
         private Random random = new Random();
         private Player player;
-        private Tool tool = new Pickaxe();
 
         public void Start()
         {
             player = new Player();
-            //tool = new Pickaxe();
 
             Logger.Log("Game started.");
 
@@ -30,7 +26,7 @@ namespace MinecraftGame
             while (running)
             {
                 Console.WriteLine("\nChoose action:");
-                Console.WriteLine("1 - Mine stone.");
+                Console.WriteLine("1 - Mine.");
                 Console.WriteLine("2 - Fight.");
                 Console.WriteLine("3 - Show inventory.");
                 Console.WriteLine("4 - Show Stats");
@@ -45,31 +41,24 @@ namespace MinecraftGame
                     case "1":
                         Mine();
                         break;
-
                     case "2":
                         Fight();
                         break;
-
                     case "3":
                         player.Inventory.ShowItems();
                         break;
-
                     case "4":
                         ShowStats();
                         break;
-
                     case "5":
                         GatherFood();
                         break;
-
                     case "6":
                         Eat();
                         break;
-
                     case "7":
                         running = false;
                         break;
-
                     default:
                         Console.WriteLine("Invalid input. Try again.");
                         break;
@@ -79,12 +68,14 @@ namespace MinecraftGame
             Logger.Log("Game closed.");
             Console.WriteLine("Thanks for playing!");
         }
+
         private void ShowStats()
         {
             Console.WriteLine("\n--- Player Stats ---");
             Console.WriteLine($"Player HP: {player.Health}");
             Console.WriteLine($"Level: {player.Level}");
         }
+
         private void CheckLevelUp()
         {
             if (player.Experience >= 20)
@@ -97,6 +88,7 @@ namespace MinecraftGame
                 Console.ResetColor();
             }
         }
+
         private void Mine()
         {
             Console.Clear();
@@ -180,18 +172,16 @@ namespace MinecraftGame
             else
             {
                 player.Experience += 5;
-
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("+5XP");
             }
             Console.ResetColor();
 
-            player.Experience += 5;
-
-            Logger.Log($"Player destroyed {block.Name} block, received loot and gained XP from minung.");
+            Logger.Log($"Player destroyed {block.Name} block, received loot and gained XP from mining.");
 
             CheckLevelUp();
         }
+
         private void Fight()
         {
             Enemy enemy;
@@ -203,11 +193,9 @@ namespace MinecraftGame
                 case 1:
                     enemy = new Zombie();
                     break;
-
                 case 2:
                     enemy = new Spider();
                     break;
-
                 default:
                     enemy = new Zombie();
                     break;
@@ -222,7 +210,14 @@ namespace MinecraftGame
             while (enemy.Health > 0 && player.Health > 0)
             {
                 enemy.Attack(player);
+
+                if (player.Health <= 0)
+                    return;
+
                 player.Attack(enemy);
+
+                if (enemy.Health <= 0)
+                    break;
 
             }
         }
@@ -236,6 +231,7 @@ namespace MinecraftGame
             Logger.Log($"Player found {food}.");
             player.Inventory.AddItem(food);
         }
+
         private void Eat()
         {
             if (player.Inventory.HasItem("Apple"))
@@ -266,39 +262,5 @@ namespace MinecraftGame
                 Logger.Log("Player tried to eat but had no food.");
             }
         }
-
-        private void ChangeTool()
-        {
-            Console.WriteLine("Choose a tool:");
-            Console.WriteLine("1 - Pickaxe");
-            Console.WriteLine("2 - Axe");
-            Console.WriteLine("3 - Shovel");
-            string input = Console.ReadLine();
-            switch (input)
-            {
-                case "1":
-                    tool = new Pickaxe();
-                    break;
-                case "2":
-                    tool = new Axe();
-                    break;
-                case "3":
-                    tool = new Shovel();
-                    break;
-                default:
-                    Console.WriteLine("Invalid input. Keeping current tool.");
-                    break;
-            }
-            Console.ForegroundColor = ConsoleColor.Blue;
-            Console.WriteLine($"You equipped a {tool.Name}.");
-            Console.ResetColor();
-            Logger.Log($"Player changed tool to {tool.Name}.");
-        }
     }
 }
-
-// leben kann nicht in minus gehen. auch von mobs
-//wenn man stirbt kommt frage "wieser leben?"
-// versuchen "wood 3x" und so zu machen
-// log file zu fixen
-//code clean zu machen

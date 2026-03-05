@@ -1,5 +1,4 @@
 ﻿using MinecraftGame.Core;
-using MinecraftGame.Utils;
 
 namespace MinecraftGame.Enemies
 {

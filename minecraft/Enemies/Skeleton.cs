@@ -19,6 +19,9 @@ namespace MinecraftGame.Enemies
             Console.ForegroundColor = ConsoleColor.Gray;
             Console.WriteLine($"Skeleton shoots an arrow for {damage} damage!");
             Console.ResetColor();
+
+            Logger.Log($"Skeleton attacked for {damage} damage.");
+
         }
     }
 }

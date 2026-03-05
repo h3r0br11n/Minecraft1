@@ -1,6 +1,5 @@
 ﻿using MinecraftGame.Core;
 using MinecraftGame.Tools;
-using MinecraftGame.Utils;
 
 namespace MinecraftGame.PlayerSystem
 {
@@ -25,9 +24,28 @@ namespace MinecraftGame.PlayerSystem
         public void TakeDamage(int damage)
         {
             Health -= damage;
-            Console.WriteLine($"Player took {damage} damage! Current HP: {Health}");
 
-            Logger.Log($"Player took {damage} damage. Current HP: {Health}");
+            if (Health <= 0)
+            { 
+                Health = 0;
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"Player took {damage}! HP: {Health}");
+                Console.ResetColor();
+
+                if (Health == 0)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Player died");
+                    Console.ResetColor();
+
+                    Logger.Log("Player has died.");
+
+                    Console.WriteLine();
+                    Console.WriteLine("--- Game Over! ---");
+
+                    Environment.Exit(0);
+                }
+            }
         }
 
         public void Attack(IDamageable target)
@@ -51,18 +69,6 @@ namespace MinecraftGame.PlayerSystem
             Console.ResetColor();   
 
             Logger.Log($"Player attacked for {damage} damage.");
-        }
-
-        public void ShowHealthBar()
-        {
-            Console.Write("HP: ");
-
-            for (int i = 0; i < Health / 10; i++)
-                Console.Write("█");
-
-            Console.WriteLine($" ({Health})");
-
-            Logger.Log($"Player health bar displayed: {Health} HP.");
         }
 
         public void Heal(int amount)

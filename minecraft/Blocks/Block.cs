@@ -2,7 +2,6 @@
 using MinecraftGame.Enums;
 using MinecraftGame.PlayerSystem;
 
-
 namespace MinecraftGame.Blocks
 {
     public abstract class Block : GameObject, IDamageable
